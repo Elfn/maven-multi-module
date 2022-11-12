@@ -22,4 +22,43 @@
         <revision>1.0-SNAPSHOT</revision>
     </properties>
 
+  <build>
+    <plugins>
+<!--      To allows other person to deploys -->
+<!--      the application in another build system -->
+<!--      (It works fine in our local system without that plugin)-->
+      <!--   ____________________________What is flattened-pom.xml?____________________________________ -->
+<!--      xml file. The flattened POM is a reduced version of the original POM -->
+<!--      with the focus to contain only the important information for consuming it. -->
+<!--      Therefore information that is only required for maintenance by developers and -->
+<!--      to build the project artifact(s) are stripped.-->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
+        <!--<version>1.3.0</version>-->
+        <configuration>
+          <flattenMode>bom</flattenMode>
+        </configuration>
+        <executions>
+          <!-- enable flattening -->
+          <execution>
+            <id>flatten</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>flatten</goal>
+            </goals>
+          </execution>
+          <!-- ensure proper cleanup -->
+          <execution>
+            <id>flatten.clean</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>
